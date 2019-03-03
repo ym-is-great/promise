@@ -17,7 +17,7 @@ function MyPromise (executor) {
     this.onRejected = cb
   }
 
-  this.fulfill = function (eventualValue) {
+  function fulfill (eventualValue) {
     if (that.status === 'pending') {
       that.status = 'fullfiled'
       for (var i = 0; i < that.onFulfilled.length; i++) {
@@ -26,15 +26,38 @@ function MyPromise (executor) {
     }
   }
 
-  this.reject = function (reason) {
+  function reject (reason) {
     if (that.status === 'pending') {
       that.status = 'rejected'
       typeof that.onRejected === 'function' && that.onRejected(reason)
     }
   }
 
-  executor(this.fulfill, this.reject)
+  setTimeout(function () {
+    try {
+      executor(fulfill, reject)
+    } catch (e) {
+      if (typeof that.onRejected === 'function') that.onRejected(e)
+      else throw e
+    }
+  })
 
+}
+
+MyPromise.all = function (promises) {
+  return new MyPromise(function (fulfill, reject) {
+    var index = 0
+    function next () {
+      promises[index].then(function () {
+        index++
+        if (index < promises.length) next()
+        else fulfill()
+      }).catch(function (reason) {
+        reject(reason)
+      })
+    }
+    next()
+  })
 }
 
 module.exports = MyPromise

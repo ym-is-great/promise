@@ -4,16 +4,19 @@ function MyPromise (executor) {
 
   this.status = 'pending'
 
-  this.onFulfilled = null
+  this.onFulfilled = []
 
   this.then = function (cb) {
-    this.onFulfilled = cb
+    this.onFulfilled.push(cb)
+    return this
   }
 
   function fulfill (eventualValue) {
     if (that.status === 'pending') {
       that.status = 'fullfiled'
-      typeof that.onFulfilled === 'function' && that.onFulfilled(eventualValue)
+      for (var i = 0; i < that.onFulfilled.length; i++) {
+        typeof that.onFulfilled[i] === 'function' && that.onFulfilled[i](eventualValue)
+      }
     }
   }
 

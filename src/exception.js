@@ -17,7 +17,7 @@ function MyPromise (executor) {
     this.onRejected = cb
   }
 
-  this.fulfill = function (eventualValue) {
+  function fulfill (eventualValue) {
     if (that.status === 'pending') {
       that.status = 'fullfiled'
       for (var i = 0; i < that.onFulfilled.length; i++) {
@@ -26,7 +26,7 @@ function MyPromise (executor) {
     }
   }
 
-  this.reject = function (reason) {
+  function reject (reason) {
     if (that.status === 'pending') {
       that.status = 'rejected'
       typeof that.onRejected === 'function' && that.onRejected(reason)
@@ -35,7 +35,7 @@ function MyPromise (executor) {
 
   setTimeout(function () {
     try {
-      executor(that.fulfill, that.reject)
+      executor(fulfill, reject)
     } catch (e) {
       if (typeof that.onRejected === 'function') that.onRejected(e)
       else throw e

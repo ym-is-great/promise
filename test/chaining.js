@@ -1,4 +1,4 @@
-const MyPromise = require('../src/multiple-then')
+const MyPromise = require('../src/chaining')
 
 const promise = new MyPromise((fulfill, reject) => {
   console.log('Do something...')
