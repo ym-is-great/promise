@@ -14,8 +14,8 @@ function MyPromise (executor) {
     return this
   }
 
-  this.catch = function (cb) {
-    this.onRejected = cb
+  this.catch = function (onRejected) {
+    this.onRejected = onRejected
   }
 
   function fulfill (eventualValue) {
