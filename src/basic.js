@@ -15,7 +15,7 @@ function MyPromise (executor) {
 
   function fulfill (eventualValue) {
     if (that.status === 'pending') {
-      that.status = 'fullfiled'
+      that.status = 'fulfiled'
       typeof that.onFulfilled === 'function' && that.onFulfilled(eventualValue)
     }
   }

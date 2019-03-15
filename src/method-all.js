@@ -8,8 +8,9 @@ function MyPromise (executor) {
 
   this.onRejected = null
 
-  this.then = function (cb) {
-    this.onFulfilled.push(cb)
+  this.then = function (onFulfilled, onRejected) {
+    this.onFulfilled.push(onFulfilled)
+    this.onRejected = onRejected
     return this
   }
 
@@ -19,7 +20,7 @@ function MyPromise (executor) {
 
   function fulfill (eventualValue) {
     if (that.status === 'pending') {
-      that.status = 'fullfiled'
+      that.status = 'fulfiled'
       for (var i = 0; i < that.onFulfilled.length; i++) {
         typeof that.onFulfilled[i] === 'function' && that.onFulfilled[i](eventualValue)
       }

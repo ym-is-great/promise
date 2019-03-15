@@ -16,7 +16,7 @@ MyPromise.all([
   promise1,
   promise2
 ]).then(() => {
-  console.log('All fullfilled')
+  console.log('All fulfilled')
 }).catch(reason => {
   console.log(reason)
 })
