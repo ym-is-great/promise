@@ -6,8 +6,11 @@ function MyPromise (executor) {
 
   this.onFulfilled = null
 
-  this.then = function (cb) {
-    this.onFulfilled = cb
+  this.onRejected = null
+
+  this.then = function (onFulfilled, onRejected) {
+    this.onFulfilled = onFulfilled
+    this.onRejected = onRejected
   }
 
   function fulfill (eventualValue) {
@@ -17,7 +20,14 @@ function MyPromise (executor) {
     }
   }
 
-  executor(fulfill)
+  function reject (reason) {
+    if (that.status === 'pending') {
+      that.status = 'rejected'
+      typeof that.onRejected === 'function' && that.onRejected(reason)
+    }
+  }
+
+  executor(fulfill, reject)
 
 }
 

@@ -7,6 +7,8 @@ const promise = new MyPromise((fulfill, reject) => {
   }, 1000)
 })
 
-promise.then(val => {
-  console.log('Eventual Value: ', val)
+promise.then(value => {
+  console.log('Eventual Value: ', value)
+}, reason => {
+	console.log(reason)
 })
